@@ -1,1 +1,146 @@
+clc
+clear
+
+% assign variables
+
+d1 = randi(6); %dice 1
+
+d2 = randi(6); %dice 2
+
+total = d1+d2;
+
+%% starting statements
+fprintf('Welcome To Over/Under 7! This game is simple, \n')
+fprintf('the dealer rolls two dice and your job is to guess if the sum of the two dice will be\n')
+fprintf('over,under, or equal to 7!\n')
+betMoney = input('If you want to play for free , please type 1, if you would like to bet money, please type 2\n');
+
+
+
+playGame(betMoney,total) %plays game first time
+
+ 
+
+
+
+
+function [] = playGame (betMoney,total)
+%% play for free
+    if betMoney == 1
+    
+        player1 = input('State Your Name:', 's');
+        
+        guess = input('Do you guess lower (0), Higher(2), Or equal to (1) 7 :');
+    
+    %Test for winner/loser
+            if guess ==2 && total>7
+               
+                fprintf('YOU WIN %s !!! THE NUMBER WAS %.f \n', player1 , total)
+            
+            elseif guess == 0 && total < 7
+                
+                fprintf('YOU WIN %s !!! THE NUMBER WAS %.f \n', player1 , total)
+            elseif guess == 1 && total == 7
+              
+                fprintf('YOU WIN %s !!! THE NUMBER WAS %.f \n', player1 , total)
+            else
+                
+                fprintf('YoU LoSe %s HaHaHa!!! THE NUMBER WAS %.f \n', player1 , total)
+                fprintf('If you are addicted to this game, please call:\n')
+                fprintf('(248)434-5508 national gamblers addiction help hotline\n')
+            end
+    end
+    
+    
+    %% Play for money
+    
+    if betMoney == 2
+   
+        fprintf('Looks like we have a gambler here!\n')
+        fprintf('Here is how the money system works... every time you bet OVER or UNDER and win, you will get 2-3X your bet\n')
+        fprintf('If you bet EQUAL TO 7 and win, you will get 6-10X your bet!\n')
+        fprintf('GOOD LUCK! HAVE FUN!\n')
+    
+        player1 = input('State Your Name:' , 's');
+        
+        %Money Balance
+         multiplyer = randi([2 3]);
+         multiplyer7 = randi([6 10]);
+        balance = input('What is your starting balance?');
+      
+        
+while balance ~= 0
+        
+        bet = input('how much money are you going to bet this round?');
+        balance = balance - bet ;
+        multiplyer = randi([1 3]);
+        multiplyer7 = randi([6 10]);
+    
+       guess = input('Do you guess lower (0), Higher(2), Or equal to (1) 7 :');
+    
+       
+
+
+       while guess < 0 || guess > 2  %make sure inputs are valid, if not, repeat
+        fprintf('Invalid input, please try again\n')
+        guess = input('Do you guess lower (0), Higher(2), Or equal to (1) 7 :\n');
+        
+       end
+       
+   
+        %Test for winner/loser
+       
+    
+            
+        if guess ==2 && total>7
+        fprintf('YOU WIN %s !!! THE NUMBER WAS %.f \n', player1 , total)
+        balance = balance + (bet*multiplyer);
+        fprintf('You won! your new balance is %.f \n', balance)
+    
+        elseif guess == 0 && total < 7
+            fprintf('YOU WIN %s !!! THE NUMBER WAS %.f \n', player1 , total)
+            balance = balance + (bet*multiplyer);
+        fprintf('You won! your new balance is %.f \n', balance)
+    
+        elseif guess == 1 && total == 7
+           fprintf('YOU WIN %s !!! THE NUMBER WAS %.f \n', player1 , total)
+            balance = balance + (bet*multiplyer7);
+        fprintf(' your new balance is %.f \n', balance)
+    
+        else
+            fprintf('YoU LoSe %s !!! THE NUMBER WAS %.f \n', player1 , total)
+        
+        fprintf('You lost everything, your new balance is %.f \n', balance)
+    fprintf('please call (248)434-5508 for the gambling addiction hotline \n')
+        end
+   
+end
+
+
+
+
+    end
+
+         %restart game
+                        fprintf('Would you like to play this epic game again???\n')
+                        playgameagain= input('If yes, press 1, if no, press 2\n');
+                        
+                        if playgameagain == 2
+                            fprintf('have a great day! come again soon!\n')
+                        else playgameagain == 1 
+                            d1 = randi(6); %dice 1
+                            d2 = randi(6); %dice 2
+                            total = d1+d2;
+                            fprintf('Great choice!\n')
+                            betMoney = input('If you want to play for free , please type 1, if you would like to bet money, please type 2\n');
+                            playGame(betMoney,total)
+                            
+                        end
+    
+    
+end
+   
+
+
+
 
