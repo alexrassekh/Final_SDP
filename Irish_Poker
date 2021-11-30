@@ -1,0 +1,310 @@
+% This will be a game of Irish Poker
+clc
+clear
+playerPoints = 5;
+% Each array index refers to a property of the card, 1 is the color, 2 is
+% the card number/type, 3 is the suit, and 4 is what you would refrence the
+% card as for printing
+
+playerCard1 = class();
+playerCard2 = class();
+playerCard3 = class();
+playerCard4 = class();
+AIcard1 = class();
+AIcard2 = class();
+AIcard3 = class();
+AIcard4 = class();
+%need to ensure that none of the cards are identical need to reassign cards
+%when two or more parts are identical
+while isequal(playerCard1,playerCard2)
+playerCard2 = class();
+end
+
+while (isequal(playerCard3,playerCard2)) || (isequal(playerCard3,playerCard1))
+playerCard3 = class();
+end
+
+while (isequal(playerCard4,playerCard3)) || (isequal(playerCard4,playerCard2)) || (isequal(playerCard4,playerCard1))
+playerCard4 = class();
+end
+
+while(isequal(AIcard1,playerCard1)) || (isequal(AIcard1,playerCard3)) || (isequal(AIcard1,playerCard2)) || (isequal(AIcard1,playerCard4))
+AIcard1 = class();
+end 
+
+while (isequal(AIcard2,playerCard1)) || (isequal(AIcard2,playerCard3)) || (isequal(AIcard2,playerCard2)) || (isequal(AIcard2,playerCard4)) || (isequal(AIcard2,AIcard1))
+    AIcard2 = class();
+end 
+
+while  (isequal(AIcard3,playerCard1)) || (isequal(AIcard3,playerCard3)) || (isequal(AIcard3,playerCard2)) || (isequal(AIcard3,playerCard4)) || (isequal(AIcard3,AIcard1))  || (isequal(AIcard3,AIcard2))
+    AIcard3 = class();
+end
+
+while (isequal(AIcard4,playerCard1)) || (isequal(AIcard4,playerCard3)) || (isequal(AIcard4,playerCard2)) || (isequal(AIcard4,playerCard4)) || (isequal(AIcard4,AIcard1))  || (isequal(AIcard4,AIcard2)) || (isequal(AIcard4,AIcard3))
+    AIcard4 = class();
+end
+%this changes the string value to numerical value
+playerCard1Value = value(playerCard1);
+playerCard2Value = value(playerCard2);
+playerCard3Value = value(playerCard3);
+playerCard4Value = value(playerCard4);
+AIcard1Value = value(AIcard1);
+AIcard2Value = value(AIcard2);
+AIcard3Value = value(AIcard3);
+AIcard4Value = value (AIcard4);
+
+% gives the AI base points and options to randomly pick for the first bet
+AIpoints = 5;
+bet1options = ["red" "black"];
+
+% This is where the player makes their first bet
+playerBet1 = input("Welcome to single player Irish Poker! You will play against Ali the computer. \nTo begin, input your guess of what the color of the first card is\nType ""red"" for red, or type ""black"" for black: ",'s');
+% checks if the bet is right by looking at if the bet is equal to the
+% actual property of the card that is stored in the vector  
+if playerBet1 == playerCard1(1)
+  playerPoints = playerPoints + 1;
+  
+  fprintf("That is correct! your point total is now %i points!\n",playerPoints);
+  else
+  playerPoints = playerPoints - 1;
+  
+  fprintf("That is incorrect, your point total is now %i points\n", playerPoints);
+end
+pause(2);
+fprintf("The first card will now be revealed\nThe color is %s\nThe card type is %s\nAnd the card suit is %s\n\n", playerCard1(1), playerCard1(4), playerCard1(3));
+%Ai choice for the first bet. This should be random from the options above
+pause(3);
+AIbet1 = bet1options(randi(2));
+fprintf("Ali picked %s \n", AIbet1)
+%checks the same way as player bet
+if AIbet1 == AIcard1(1)
+    AIpoints = AIpoints +1;
+    pause(1);
+    fprintf("Ali was correct! Their point total is now %i points! \n",AIpoints);
+else 
+    AIpoints = AIpoints -1;
+    pause(1);
+    fprintf("Ali was inccorect, their point total is  now %i points. \n ", AIpoints)
+end 
+% the player is told their first card to be used as reference for more
+% bets.
+fprintf("Ali's first card was %s and %s with a value of %s \n",AIcard1(1), AIcard1(3),AIcard1(4))
+pause(3);
+
+% This next section will be for the player's second bet on the second card which is whether the second card is higher or lower than the first
+playerBet2 = input("\nNext, you will bet on whether your second card is higher or lower than your first card.\nIf you think it is higher, input ""higher""\nIf you think it is lower, input ""lower"": ", 's');
+
+% this first checks what bet is made and then if it is right or wrong, when
+% both sides are true, the player's points are then changed. 
+if (playerBet2 == "higher") && (playerCard1Value < playerCard2Value)
+  playerPoints = playerPoints + 1;
+  
+  fprintf("That is correct! your point total is now %i points!\n",playerPoints);
+  elseif (playerBet2 == "higher") && (playerCard1Value > playerCard2Value)
+    playerPoints = playerPoints - 1;
+    
+    fprintf("That is incorrect, your point total is now %i points\n", playerPoints);
+    elseif (playerBet2 == "lower") && (playerCard1Value < playerCard2Value)
+    playerPoints = playerPoints - 1;
+    
+    fprintf("That is incorrect, your point total is now %i points\n", playerPoints);
+    elseif (playerBet2 == "lower") && (playerCard1Value > playerCard2Value)
+    playerPoints = playerPoints + 1;
+    
+    fprintf("That is correct! your point total is now %i points!\n",playerPoints);
+    else
+    playerPoints = playerPoints - 1;
+   
+    fprintf("Sorry looks like your cards were the same! Your point total is now %i points.\n",playerPoints);
+end
+pause(2);
+fprintf("\nThe second card will now be revealed\nThe color is %s\nThe card type is %s\nAnd the card suit is %s\n\n", playerCard2(1), playerCard2(4), playerCard2(3));
+pause(3);
+% need to make the second bet for AI these are the options. The AI makes a
+% their bet based on the value of the first card. 
+bet2options = ["higher" "lower"];
+% the ai must refer back to the first card to make their second bet. 
+if AIcard1Value > 7
+    AIbet2 = 'lower';
+elseif AIcard1Value < 7
+    AIbet2 = 'higher';
+else 
+    AIbet2 = bet2options(randi(2));
+end 
+
+fprintf("Ali bet %s for the second bet.\n",AIbet2);
+% this checks if the bet from the AI is correct the same way as player one 
+if AIbet2 == "higher" &&  AIcard1Value < AIcard2Value
+    AIpoints = AIpoints +1;
+    
+    fprintf("Ali was correct and their point total is now %i points.\n", AIpoints)
+elseif AIbet2 == "higher" && AIcard1Value > AIcard2Value
+    AIpoints = AIpoints - 1;
+    
+    fprintf("Ali was wrong and their point total is now %i points.\n ", AIpoints)
+elseif AIbet2 == "lower" && AIcard1Value>AIcard2Value
+    AIpoints = AIpoints + 1 ;
+    
+    fprintf("Ali was correct and their point toal is now %i points.\n", AIpoints )
+elseif AIbet2 == "lower" && AIcard1Value< AIcard2Value
+    AIpoints = AIpoints -1;
+    
+    fprintf("Ali was wrong and their point total is now %i points. \n", AIpoints)
+end
+pause(1);
+fprintf("Ali's second card was %s and %s with a value of %s \n",AIcard2(1), AIcard2(3),AIcard2(4))
+pause(3);
+%% This section will be for the player's third bet on whether the third card is inside or outside the range of the first 2
+
+playerBet3 = input("\nNext, you will bet on whether the third card is inside or outside the range of your first 2 cards\nIf you believe it is inside, input ""inside""\nIf you believe it is outside, input ""outside"" :",'s');
+%This puts the first two values into a vector, then recognizes the
+%higher and lower cards. This makes it easier to for the code to check if
+%the person is correct. 
+firstTwoValues = [playerCard1Value, playerCard2Value];
+upperBound = max(firstTwoValues);
+lowerBound = min(firstTwoValues);
+% first the code looks at what the player bet, then uses if statements to
+% determine if they were right or wrong  
+if playerBet3 == "outside"
+    if playerCard3Value>upperBound || playerCard3Value<lowerBound
+    playerPoints = playerPoints + 1;
+    
+    fprintf("That is correct! your point total is now %i points!\n",playerPoints);
+    else
+        playerPoints = playerPoints - 1;
+       
+    fprintf("Sorry, the third card was actually inside. Your point total is now %i points.\n",playerPoints);
+    end
+   
+else
+    if playerCard3Value<=upperBound && playerCard3Value>=lowerBound
+        playerPoints = playerPoints + 1;
+        
+    fprintf("That is correct! your point total is now %i points!\n",playerPoints);
+    else
+            playerPoints = playerPoints - 1;
+           
+    fprintf("Sorry looks like your third card is outside! Your point total is now %i points.\n",playerPoints);
+    end
+end
+
+pause(1);
+fprintf("\nThe third card will now be revealed\nThe color is %s\nThe card type is %s\nAnd the card suit is %s\n\n", playerCard3(1), playerCard3(4), playerCard3(3));
+pause(3);
+%the AI's third bet options
+bet3options = ["inside" "outside"];
+%need to develop a strategy for the AI. This looks at the amount of cards
+%inbetwen to make an educated decision. 
+AIcardDiff = abs(AIcard1Value - AIcard2Value);
+cardsIn = AIcardDiff + 1;
+cardsOut = 13 - cardsIn;
+%helps in checking the decision
+firstTwoAIvalue = [AIcard1Value, AIcard2Value];
+maxAIvalue = max(firstTwoAIvalue);
+minAIvalue = min(firstTwoAIvalue);
+% this is how a decision is made for the AI  
+if cardsIn > cardsOut
+    AIbet3 = 'inside';
+else
+    AIbet3 = 'outside';
+end 
+
+fprintf("Ali guessed %s.\n",AIbet3)
+% check if the AI is right or wrong the same way as player one
+if AIbet3 == "outside"
+    if AIcard3Value > maxAIvalue || AIcard3Value < minAIvalue
+        AIpoints = AIpoints + 1;
+        pause(1);
+        fprintf("Ali was correct and their point total is now %i points.\n", AIpoints);
+    else 
+        AIpoints = AIpoints - 1;
+        pause(1);
+        fprintf("Ali was incorrect and their point totl is now %i points.\n", AIpoints);
+    end
+else
+    if AIcard3Value>minAIvalue && AIcard3Value < maxAIvalue
+        AIpoints = AIpoints + 1;
+        pause(1);
+        fprintf("Ali was correct and their point total is now %i points. \n", AIpoints);
+    else
+        AIpoints = AIpoints - 1;
+        pause(1);
+        fprintf("Ali was incorrect and their point total is now %i points.\n", AIpoints);
+    end
+end
+fprintf("Ali's third card was %s and %s with a value of %s \n",AIcard3(1), AIcard3(3),AIcard3(4))
+
+%% This section will be for the player's fourth bet, which will be guessing what suit the fourth card is
+pause(3);
+playerBet4 = input("\nFinally, you will bet on what suit you believe the fourth card is\nIf you believe the suit is diamonds, input ""diamonds""\nIf you believe it is clubs, input ""clubs""\nIf you believe it is hearts, input ""hearts""\nIf you believe it is spades, input ""spades"" :",'s');
+if playerBet4 == playerCard4(3)
+    playerPoints = playerPoints + 1;
+    
+    fprintf("That is correct! your point total is now %i points!\n",playerPoints);
+else
+    playerPoints = playerPoints - 1;
+    
+    fprintf("That is incorrect, your point total is now %i points\n", playerPoints);
+end
+pause(1);
+fprintf("The fourth card will now be revealed\nThe color is %s\nThe card type is %s\nAnd the card suit is %s\n\n", playerCard4(1), playerCard4(4), playerCard4(3));
+pause(3);
+% need to get ready for the AI's last bet 
+bet4options = ["hearts" "diamonds" "spades" "clubs"];
+
+AIbet4 = bet4options(randi(4));
+fprintf("For the last bet, the Ali bet %s.",AIbet4);
+if AIbet4 == AIcard4(4)
+    AIpoints = AIpoints + 1;
+    pause(1);
+    fprintf("Ali was correct and their point total is now %i points.\n",AIpoints);
+else 
+    AIpoints = AIpoints - 1;
+    pause(1);
+    fprintf("Ali was incorrect and their point total is now %i points.\n", AIpoints)
+end 
+fprintf("\nAli's fourth card was %s and %s with a value of %s \n",AIcard4(1), AIcard4(3),AIcard4(4))
+%determining a winner
+
+if AIpoints > playerPoints
+    
+    fprintf("Sorry you lost. Ali's final score was %i points and you only had %i points." ,AIpoints,playerPoints)
+elseif AIpoints < playerPoints
+    
+    fprintf("You beat Ali!! You finished with %i points and Ali only had %i points.",playerPoints,AIpoints)
+else 
+    
+    fprintf("You tied with Ali with a score of %i points.",AIpoints)
+end 
+
+%% This function is for generating the cards the player will be dealt
+function y = class(~)
+color = ["red","black"];
+cardNumber = [1 2 3 4 5 6 7 8 9 10 11 12 13];
+%makes sure that red cards can only be hearts or diamonds and that black
+%cards can only be spades and clubs. 
+cardSuitRed = ["hearts", "diamonds"];
+cardSuitBlack = ["spades", "clubs"];
+x = [color(randi(2)), cardNumber(randi(13))];
+if x(1) == "red" 
+    x(3) = cardSuitRed(randi(2));
+else
+    x(3) = cardSuitBlack(randi(2));
+end
+
+if str2double(x(2)) == 11
+    x(4) = "J";
+elseif str2double(x(2)) == 12
+    x(4) = "Q";
+elseif str2double(x(2)) == 13
+    x(4) = "K";
+elseif str2double(x(2)) == 1
+    x(4) = "A";
+else
+    x(4) = x(2);
+end
+y = x;
+end
+function i = value(l)
+i = str2double(l(2));
+end
