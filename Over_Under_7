@@ -57,7 +57,7 @@ function [] = playGame (betMoney,total)
     if betMoney == 2
    
         fprintf('Looks like we have a gambler here!\n')
-        fprintf('Here is how the money system works... every time you bet OVER or UNDER and win, you will get 2-3X your bet\n')
+        fprintf('Here is how the money system works... every time you bet OVER or UNDER and win, you will get 3-4X your bet\n')
         fprintf('If you bet EQUAL TO 7 and win, you will get 6-10X your bet!\n')
         fprintf('GOOD LUCK! HAVE FUN!\n')
     
@@ -79,7 +79,7 @@ total = d1+d2;
 
         bet = input('how much money are you going to bet this round?');
         balance = balance - bet ;
-        multiplyer = randi([1 3]);
+        multiplyer = randi([3 4]);
         multiplyer7 = randi([6 10]);
     
        guess = input('Do you guess lower (0), Higher(2), Or equal to (1) 7 :');
