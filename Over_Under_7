@@ -71,6 +71,12 @@ function [] = playGame (betMoney,total)
         
 while balance ~= 0
         
+d1 = randi(6); %dice 1
+
+d2 = randi(6); %dice 2
+
+total = d1+d2;
+
         bet = input('how much money are you going to bet this round?');
         balance = balance - bet ;
         multiplyer = randi([1 3]);
@@ -140,7 +146,6 @@ end
     
 end
    
-
 
 
 
